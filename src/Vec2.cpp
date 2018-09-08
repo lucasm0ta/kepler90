@@ -14,8 +14,8 @@ Vec2::Vec2 (float _x, float _y) : x(_x), y(_y){
 }
 
 void Vec2::Rotate(float rad) {
-    float _x = std::cos(rad)*x - std::sin(rad)*y;
-    float _y = std::sin(rad)*x + std::cos(rad)*y;
+    float _x = std::cos(rad) * x - std::sin(rad) * y;
+    float _y = std::sin(rad) * x + std::cos(rad) * y;
     x = _x;
     y = _y;
 }

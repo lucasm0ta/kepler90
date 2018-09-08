@@ -5,7 +5,7 @@
 
 class Sphere : public Object {
 public:
-    Sphere(GLfloat radius, Vec3 pos);
+    Sphere(GLfloat radius, Vec3 pos, std::string texPath);
 
     void Render() override;
     

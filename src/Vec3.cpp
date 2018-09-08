@@ -3,7 +3,8 @@
 #include <cmath>
 Vec3::Vec3() : x(0), y(0), z(0){
 }
-Vec3::Vec3(std::initializer_list<GLfloat> initList) {
+
+Vec3::Vec3(std::initializer_list<GLdouble> initList) {
     if (initList.size() == 3) {
         x = initList.begin()[0];
         y = initList.begin()[1];
@@ -11,25 +12,32 @@ Vec3::Vec3(std::initializer_list<GLfloat> initList) {
     }
 }
 
-Vec3::Vec3 (GLfloat _x, GLfloat _y, GLfloat _z) : x(_x), y(_y), z(_z){
+Vec3::Vec3 (GLdouble _x, GLdouble _y, GLdouble _z) : x(_x), y(_y), z(_z){
 }
 
-GLfloat Vec3::X() const {
+GLdouble Vec3::X() const {
     return x;
 }
 
-GLfloat Vec3::Y() const {
+GLdouble Vec3::Y() const {
     return y;
 }
 
-GLfloat Vec3::Z() const {
+GLdouble Vec3::Z() const {
     return z;
 }
 
-void Vec3::Set(GLfloat _x, GLfloat _y, GLfloat _z) {
+void Vec3::Set(GLdouble _x, GLdouble _y, GLdouble _z) {
     x = _x;
     y = _y;
     z = _z;
+}
+
+void Vec3::Rotated(Vec3 v, GLdouble rad) {
+    float _x = std::cos(rad) * x - std::sin(rad) * y;
+    float _y = std::sin(rad) * x + std::cos(rad) * y;
+    x = _x;
+    y = _y;
 }
 
 Vec3 Vec3::operator+(const Vec3 &a) const {
@@ -94,7 +102,7 @@ Vec3& Vec3::operator*=(const Vec3 &&a) {
     return *this;
 }
 
-Vec3& Vec3::operator*=(float f) {
+Vec3& Vec3::operator*=(GLdouble f) {
     x *= f;
     y *= f;
     z *= f;
@@ -105,11 +113,11 @@ bool Vec3::operator==(const Vec3 &a) {
     return (x == a.x && y == a.y && z == a.z);
 }
 
-Vec3  Vec3::operator*(float f) const {
+Vec3  Vec3::operator*(GLdouble f) const {
     return Vec3(x * f, y * f, z * f);
 }
 
-Vec3  Vec3::operator/(float f) const {
+Vec3  Vec3::operator/(GLdouble f) const {
     if (f != 0) {
         return Vec3(x / f, y / f, z / f);
     } else {

@@ -8,30 +8,31 @@
 class Vec3 {
 public:
     Vec3();
-    Vec3(std::initializer_list<GLfloat> list);
-    Vec3(GLfloat x, GLfloat y, GLfloat z);
+    Vec3(std::initializer_list<GLdouble> list);
+    Vec3(GLdouble x, GLdouble y, GLdouble z);
 
-    // void Rotate(GLfloat rad);
-    // Vec3 GetRotated(GLfloat rad) const;
-    // GLfloat Mag() const;
-    // GLfloat L0Mag() const;
-    // void SetMag(GLfloat mag);
-    // static GLfloat EuclidianDist(const Vec3 &a, const Vec3 &b);
-    // static GLfloat ManhattamDist(const Vec3 &a, const Vec3 &b);
-    // static GLfloat Angle(const Vec3 &a, const Vec3 &b);
+    // void Rotate(GLdouble rad);
+    // Vec3 GetRotated(GLdouble rad) const;
+    // GLdouble Mag() const;
+    // GLdouble L0Mag() const;
+    // void SetMag(GLdouble mag);
+    // static GLdouble EuclidianDist(const Vec3 &a, const Vec3 &b);
+    // static GLdouble ManhattamDist(const Vec3 &a, const Vec3 &b);
+    // static GLdouble Angle(const Vec3 &a, const Vec3 &b);
 
-    GLfloat X() const;
-    GLfloat Y() const;
-    GLfloat Z() const;
-    void Set(GLfloat x, GLfloat y, GLfloat z);
+    GLdouble X() const;
+    GLdouble Y() const;
+    GLdouble Z() const;
+    void Set(GLdouble x, GLdouble y, GLdouble z);
+    void Rotated(Vec3 v, GLdouble rad);
 
     Vec3 operator+(const Vec3 &a) const;
     Vec3 operator+(const Vec3 &&a) const;
     Vec3 operator-(const Vec3 &a) const;
     Vec3 operator-(const Vec3 &&a) const;
     Vec3 operator-() const;
-    Vec3 operator*(GLfloat f) const;
-    Vec3 operator/(GLfloat f) const;
+    Vec3 operator*(GLdouble f) const;
+    Vec3 operator/(GLdouble f) const;
 
     Vec3& operator=(const Vec3 &a) = default;
     Vec3& operator+=(const Vec3 &a);
@@ -40,14 +41,14 @@ public:
     Vec3& operator-=(const Vec3 &&a);
     Vec3& operator*=(const Vec3 &a);
     Vec3& operator*=(const Vec3 &&a);
-    Vec3& operator*=(GLfloat f);
+    Vec3& operator*=(GLdouble f);
     bool operator==(const Vec3 &a);
     friend std::ostream& operator<<(std::ostream& os, const Vec3& a);
 
 private:
-    GLfloat x;
-    GLfloat y;
-    GLfloat z;
+    GLdouble x;
+    GLdouble y;
+    GLdouble z;
 };
 
 #endif /* VEC3_H */

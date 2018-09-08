@@ -1,6 +1,6 @@
 #include "Cube.h"
 
-Cube::Cube(GLfloat size, Vec3 pos) : Object(), size(size){
+Cube::Cube(GLfloat size, Vec3 pos) : Object(""), size(size){
     glEnable(GL_DEPTH_TEST);
     obj = gluNewQuadric();
     // glEnable(GL_TEXTURE_2D);
