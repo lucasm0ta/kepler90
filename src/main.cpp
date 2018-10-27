@@ -8,84 +8,131 @@ float theta = 0.1;
 int win_id = 0;
 std::vector<Object*> objArray;
 
+GLfloat px = 0, py = 0, pz = 2;
 
-void translate2d(GLfloat dx, GLfloat dy) {
+void ortoProjection() {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-4.0f, 4.0f, -4.0f, 4.0f, -4.0f, 4.0f);
+}
+
+void perspectProjection() {
+    glEnable(GL_DEPTH_TEST);
+
     glMatrixMode(GL_MODELVIEW);
+
     glPushMatrix();
     glLoadIdentity();
-    glPushMatrix();
-    glTranslatef(dx, dy, 0.0f);
+    gluLookAt(px, py, pz, 0, 0, 0, 0, 1, 0);
+
+    glMatrixMode(GL_PROJECTION);
+    // glPushMatrix();
+    glLoadIdentity();
+    gluPerspective(100, 1, 0.1, 1000);
     glPopMatrix();
-}
 
-void rotate2d(GLfloat rad) {
-    // cx, cy;
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    // glTranslatef(dx, dy, 0.0f);
-}
-
-void drawRect() {
-    glColor3f(.5, .6, .1);
-    glBegin(GL_QUADS);
-        glVertex2f(0.6, 0.6);
-        glVertex2f(0.6, 0.8);
-        glVertex2f(0.8, 0.8);
-        glVertex2f(0.8, 0.6);
-    glEnd();
-}
-
-void drawTrangle() {
-    glColor3f(.7, .6, .3);
-    glBegin(GL_TRIANGLE_FAN);
-        glVertex2f(0.3, 0.4);
-        glVertex2f(0.2, 0.2);
-        glVertex2f(0.4, 0.4);
-    glEnd();
+    // glMatrixMode(GL_MODELVIEW);
+    // glPopMatrix();
 }
 
 void createScene(void) {
 
-    glClear(GL_COLOR_BUFFER_BIT);
+    perspectProjection();
     glMatrixMode(GL_MODELVIEW);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(1, 1, 1, 1);
+    // ortoProjection();
+    // glColor3f(1, 0, 0);
 
+    // glPushMatrix();
+    // glRotatef(theta, 0, 0, 1);
+    // glScalef(1, 1, 1);
+    // glTranslatef(0, 0, 0);
+    // glutWireSphere(1, 50, 50);
+    // glPopMatrix();
+
+    // glLoadIdentity();
     for (Object *obj: objArray) {
+        obj->Rotate(0.01, {0, 1, 0});
         obj->Render();
     }
-    
-    glFlush();
-    glutPostRedisplay();
 
-    theta += 0.1;
+    
+    // glPushMatrix();
+    // // clear matrix
+    // glLoadIdentity();
+    // // apply rotations
+    // glRotate3f(rotX, 1.0, 0.0, 0.0);
+    // glRotate3f(rotY, 0.0, 1.0, 0.0);
+    // glRotate3f(rotZ, 0.0, 0.0, 1.0);
+    // // move the axes to the screen corner
+    // glTranslatef(-3.0, -2.0, 0.0);
+    // // draw our axes
+    // glBegin(GL_LINES);
+    // // draw line for x axis
+    // glColor3f(1.0, 0.0, 0.0);
+    // glVertex3f(0.0, 0.0, 0.0);
+    // glVertex3f(1.0, 0.0, 0.0);
+    // // draw line for y axis
+    // glColor3f(0.0, 1.0, 0.0);
+    // glVertex3f(0.0, 0.0, 0.0);
+    // glVertex3f(0.0, 1.0, 0.0);
+    // // draw line for Z axis
+    // glColor3f(0.0, 0.0, 1.0);
+    // glVertex3f(0.0, 0.0, 0.0);
+    // glVertex3f(0.0, 0.0, 1.0);
+    // glEnd();
+    // // load the previous
+    
+    // glFlush();
+    // glutPostRedisplay();
+
+    theta += 0.01;
 }
 void keyboard_special(int  key, int x, int y) {
     switch (key) {
         case GLUT_KEY_RIGHT:
-            std::cout<<"Para direita\n";
+            std::cout<<"Para direita:" << py <<"\n";
+            py += 0.05;
             break;
         case GLUT_KEY_LEFT:
-            std::cout<<"Para esquerda\n";
+            std::cout<<"Para esquerda:" << py <<"\n";
+            py -= 0.05;
             break;
         case GLUT_KEY_UP:
-            std::cout<<"Para cima\n";
+            std::cout<<"Para cima:" << pz <<"\n";
+            pz += 0.05;
             break;
         case GLUT_KEY_DOWN:
-            std::cout<<"Para baixo\n";
+            std::cout<<"Para baixo:" << pz <<"\n";
+            pz -= 0.05;
             break;
     }
 }
-void keyboardCB(unsigned char key, int x, int y )
+void keyboard_keys(unsigned char key, int x, int y )
 {
     switch (key) {
         case 27: // Escape key
             glutDestroyWindow (win_id);
             exit (0);
             break;
+        case 'r':
+            std::cout<<"Apertou R\n";
+            break;
+        case 'a':
+            std::cout<<"Apertou A:" << px << "\n";
+            px += 0.05;
+            break;
+        case 'd':
+            std::cout<<"Apertou D:" << px << "\n";
+            px -= 0.05;
+            break;
     }
     glutPostRedisplay();
 }
-void rotating() {
-    glRotatef(0.1, 1, 0, 0);
+void update() {
+    // glRotatef(0.1, 1, 0, 0);
+    glFlush();
     glutPostRedisplay();
 }
 
@@ -94,16 +141,16 @@ void resize(int w, int h)
     // if (!h)
 	//     h = 1;
     // glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
+    // glMatrixMode(GL_PROJECTION);
     // glLoadIdentity();
-    gluPerspective(90.0, 1.0 * w / h, 0.1, 100.0);
+    // gluPerspective(90.0, 1.0 * w / h, 0.1, 100.0);
 }
 
 void init(void)
 {
     Sphere *sp = new Sphere(1, {0, 0, 0});
-    sp->Scale({5, 5, 5});
-    sp->Translate({0, 0, -3});
+    // sp->Scale({5, 5, 5});
+    // sp->Translate({0, 0, -3});
     // static_cast<Object>(sp);
     objArray.push_back(sp);
 }
@@ -120,9 +167,9 @@ int main(int argc, char **argv) {
     glutDisplayFunc(createScene);
 
     glutSpecialFunc(&keyboard_special);
-    glutKeyboardFunc(&keyboardCB);
-    glutIdleFunc(&rotating);
-    glutReshapeFunc(resize);
+    glutKeyboardFunc(&keyboard_keys);
+    glutIdleFunc(&update);
+    // glutReshapeFunc(resize);
 
     init();
 

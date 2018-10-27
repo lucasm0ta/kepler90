@@ -8,13 +8,15 @@ public:
 
     void Translate(Vec3 tr);
     void Scale(Vec3 sc);
-    void Rotate(Vec3 r);
+    void Rotate(GLfloat ang, Vec3 r);
 
     virtual void Render() = 0;
 
     Vec3 pos;
     Vec3 scale;
     Vec3 rot;
+
+    GLfloat angle;
 
     GLuint tex;
     GLUquadric* obj;

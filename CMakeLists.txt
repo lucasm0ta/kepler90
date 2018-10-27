@@ -10,9 +10,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_executable(kepler90
     src/main.cpp
+    src/Cube.cpp
     src/Object.cpp
-    src/Vec3.cpp
     src/Sphere.cpp
+    src/Vec3.cpp
 )
 
 find_package(OpenGL REQUIRED)
