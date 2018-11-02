@@ -15,7 +15,7 @@ double vel = 1;
 int win_id = 0;
 std::vector<Object*> objArray;
 
-GLfloat px = 300, py = 0, pz = 740;
+GLfloat px = 0, py = 0, pz = 740;
 
 void ortoProjection() {
     glMatrixMode(GL_PROJECTION);
@@ -34,18 +34,21 @@ void perspectProjection() {
 
     glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
+    // glPushMatrix();
         glLoadIdentity();
-        gluLookAt(px, py, pz, 0, 0, 0, 0, 1, 0);
+        gluLookAt(px, py, pz, px, py, 0, 0, 1, 0);
 
         glMatrixMode(GL_PROJECTION);
         // glPushMatrix();
+
         glLoadIdentity();
         double w = glutGet(GLUT_WINDOW_WIDTH);
         double h = glutGet(GLUT_WINDOW_HEIGHT);
         double ar = w / h;
         gluPerspective(10, ar, 0.1, 1000);
-    glPopMatrix();
+        // glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+    // glPopMatrix();
 
     // glMatrixMode(GL_MODELVIEW);
     // glPopMatrix();
@@ -55,12 +58,12 @@ void createScene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glClearColor(1, 1, 1, 1);
 
-    glMatrixMode(GL_MODELVIEW);
     if (PROJ == Projection::ORTHO) {
         ortoProjection();
     } else {
         perspectProjection();
     }
+    glMatrixMode(GL_MODELVIEW);
     // glColor3f(1, 0, 0);
 
     // glPushMatrix();
@@ -72,9 +75,12 @@ void createScene(void) {
 
     // glLoadIdentity();
     for (Object *obj: objArray) {
-        // obj->Rotate(0.01, {0.001, 0.001, 0});
+        obj->Rotate(0.01, {0, 0, 1});
         Vec3 pos = obj->pos;
         obj->Render();
+
+        // glFlush();
+        // glutPostRedisplay();
     }
     
     // glPushMatrix();
@@ -110,20 +116,20 @@ void createScene(void) {
 void keyboard_special(int  key, int x, int y) {
     switch (key) {
         case GLUT_KEY_RIGHT:
-            std::cout<<"Para direita:" << py <<"\n";
-            py += vel;
+            std::cout<<"X:" << px <<"\n";
+            px += vel;
             break;
         case GLUT_KEY_LEFT:
-            std::cout<<"Para esquerda:" << py <<"\n";
-            py -= vel;
+            std::cout<<"X:" << px <<"\n";
+            px -= vel;
             break;
         case GLUT_KEY_UP:
-            std::cout<<"Para cima:" << pz <<"\n";
-            pz += vel;
+            std::cout<<"Y:" << py <<"\n";
+            py += vel;
             break;
         case GLUT_KEY_DOWN:
-            std::cout<<"Para baixo:" << pz <<"\n";
-            pz -= vel;
+            std::cout<<"Y:" << py <<"\n";
+            py -= vel;
             break;
     }
 }
@@ -138,12 +144,12 @@ void keyboard_keys(unsigned char key, int x, int y ) {
             std::cout<<"Apertou R\n";
             break;
         case 'a':
-            std::cout<<"Apertou A:" << px << "\n";
-            px += vel;
+            std::cout<<"Z:" << pz << "\n";
+            pz += vel;
             break;
         case 'd':
-            std::cout<<"Apertou D:" << px << "\n";
-            px -= vel;
+            std::cout<<"Z:" << pz << "\n";
+            pz -= vel;
             break;
     }
     glutPostRedisplay();
@@ -151,7 +157,7 @@ void keyboard_keys(unsigned char key, int x, int y ) {
 
 void update() {
     // glMatrixMode(GL_PROJECTION);
-    glRotatef(0.1, 1, 0, 0);
+    // glRotatef(0.1, 1, 0, 0);
     glFlush();
     glutPostRedisplay();
 }
@@ -172,17 +178,17 @@ void init(void)
     float d = 0;
     Sphere *sun = new Sphere(20, {0, 0, 0}, "../img/sun.jpg"); // 131
     d += 20;
-    Sphere *kb = new Sphere(1.31, {d + 5.8, 0, 0}, "../img/jupiter.jpg");
+    Sphere *kb = new Sphere(1.31, {d + 5.8, 0, 0}, "../img/saturn.jpg");
     d += 1.51;
-    Sphere *kc = new Sphere(1.18, {d + 1.8, 0, 0}, "../img/jupiter.jpg");
+    Sphere *kc = new Sphere(1.18, {d + 1.8, 0, 0}, "../img/a.jpg");
     d += 1.58;
     Sphere *ki = new Sphere(1.32, {d + 1.8, 0, 0}, "../img/jupiter.jpg");
     d += 3;
-    Sphere *kd = new Sphere(2.88, {d + 1.8, 0, 0}, "../img/jupiter.jpg");
+    Sphere *kd = new Sphere(2.88, {d + 1.8, 0, 0}, "../img/f.jpg");
     d += 6;
     Sphere *ke = new Sphere(2.67, {d + 1.8, 0, 0}, "../img/jupiter.jpg");
     d += 6;
-    Sphere *kf = new Sphere(2.89, {d + 1.8, 0, 0}, "../img/jupiter.jpg");
+    Sphere *kf = new Sphere(2.89, {d + 1.8, 0, 0}, "../img/saturn.jpg");
     d += 12;
     Sphere *kg = new Sphere(8.13, {d + 1.8, 0, 0}, "../img/jupiter.jpg");
     d += 20;
@@ -191,15 +197,15 @@ void init(void)
     // k1->Rotate(1, {0, 0, -3});
     // static_cast<Object>(sp);
     objArray.push_back(sun);
+    // objArray.push_back(kb);
     objArray.push_back(kb);
-    objArray.push_back(kb);
-    objArray.push_back(kc);
-    objArray.push_back(ki);
+    // objArray.push_back(kc);
+    // objArray.push_back(ki);
     objArray.push_back(kd);
-    objArray.push_back(ke);
-    objArray.push_back(kf);
-    objArray.push_back(kg);
-    objArray.push_back(kh);
+    // objArray.push_back(ke);
+    // objArray.push_back(kf);
+    // objArray.push_back(kg);
+    // objArray.push_back(kh);
 }
 
 int main(int argc, char **argv) {

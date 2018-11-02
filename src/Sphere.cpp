@@ -50,9 +50,10 @@ void Sphere::Render() {
     glClearColor(0.0, 0.0, 0.0, 1);
     // glClear(GL_DEPTH_BUFFER_BIT);
 
-    // glTranslatef(-x, -y, -z);
+    // glTranslatef(-pos.X(), -pos.Y(), -pos.Z());
     glRotatef(angle, rot.X(), rot.Y(), rot.Z());
-    // glTranslatef(x, y, z);
+    // glTranslatef(pos.X(), pos.Y(), pos.Z());
+    
     glScalef(scale.X(), scale.Y(), scale.Z());
     glTranslatef(pos.X(), pos.Y(), pos.Z());
     // glutSolidSphere(radius, 50, 50);
